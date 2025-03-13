@@ -175,7 +175,7 @@ Example output
 
 Return state vectors for a specific Epoch from the data set
 ```bash
-curl -X GET "http://127.0.0.1:5000/epochs/2025-051T12:00:00.000Z"
+curl -X GET "http://127.0.0.1:5000/epochs/2025-071T12:00:00.000Z"
 ```
 Example output
 
