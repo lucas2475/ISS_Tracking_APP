@@ -219,9 +219,10 @@ Example output
 
 Ensure the Flask service is running
 Use pytest to run all unit tests
-~
+
+```bash
 $ pytest
-~
+```
 
 
 ## Using AI 
