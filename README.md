@@ -156,7 +156,7 @@ Below are the API endpoints along with their descriptions are sampele curl reque
 
 Return entire dataset 
 ```bash
-curl -X GET "http://127.0.0.1:5000/epochs"
+curl "http://127.0.0.1:5000/epochs"
 ```
 
 
@@ -164,7 +164,7 @@ curl -X GET "http://127.0.0.1:5000/epochs"
 
 Return modified list of Epochs given query parameters
 ```bash
-curl -X GET "http://127.0.0.1:5000/epochs?limit=2&offset=1"
+curl "http://127.0.0.1:5000/epochs?limit=2&offset=1"
 ```
 Example output
 ```bash
@@ -175,7 +175,7 @@ Example output
 
 Return state vectors for a specific Epoch from the data set
 ```bash
-curl -X GET "http://127.0.0.1:5000/epochs/2025-071T12:00:00.000Z"
+curl "http://127.0.0.1:5000/epochs/2025-071T12:00:00.000Z"
 ```
 Example output
 
@@ -187,7 +187,7 @@ Example output
 
 Get the speed of ISS at specific EPOCH 
 ```bash
-curl -X GET "http://127.0.0.1:5000/epochs/2025-051T12:00:00.000Z/speed"
+curl "http://127.0.0.1:5000/epochs/2025-051T12:00:00.000Z/speed"
 ```
 Example output
 
@@ -196,7 +196,7 @@ Example output
 
 Return instantaneous speed, latitude, longitude, altitude and geoposition for the Epoch that is the nearest time
 ```bash
-curl -X GET "http://127.0.0.1:5000/now"
+curl "http://127.0.0.1:5000/now"
 ```
 Example output
 ```bash
@@ -208,7 +208,7 @@ Example output
 
 Return latitude, longtiude, alrituded and geoposition for a specific Epoch in the data set
 ```bash
-curl -X GET "http://127.0.0.1:5000/epochs/<epoch>/location"
+curl "http://127.0.0.1:5000/epochs/<epoch>/location"
 ```
 Example output
 ```bash
