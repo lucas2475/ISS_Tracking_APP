@@ -102,7 +102,8 @@ def test_calculate_instantaneous_speed():
     assert calcualte_instantaneous_speed(state_vectors) > 0 
 
 
-def test_convert_to_lat_lon_alt():
+def test_convert_to_lat_lon_alt():i
+    """ Test convert coordinates to latitude longtitude and altitude"""
     epoch = {
         "EPOCH": "2024-075T23:01:00.000Z",
         "X": {"#text": "1000"},
@@ -119,6 +120,7 @@ def test_convert_to_lat_lon_alt():
     assert expected_alt == alt
 
 def test_to_datetime():
+    """ Test convert EPOCH to dataetime"""
     epoch = {
         "EPOCH": "2024-075T23:01:00.000Z"
     }
@@ -130,6 +132,7 @@ def test_to_datetime():
     assert result_datetime == expected_datetime
 
 def test_get_geolocation():
+    """Test to covert coordinates to geolocation"""
     coordinates = "40.73061, -73.935242"
 
     result_location = get_geolocation(coordinates)
