@@ -66,18 +66,19 @@ def fetch_and_store_iss_data():
     Fetch ISS data, parse it, and store it in Redis with EPOCH as the key
     """
 
+    if rd.keys():
+        return
+
     xml_string = fetch_iss_data()
     if not xml_string:
-        print("Failed to fetch ISS data")
-        return
+        return 
     
     data_dict = parse_iss_data(xml_string)
     state_vectors = extract_state_vectors(data_dict)
 
-    # Store each state vector separately using EPOCH as the key
     for sv in state_vectors:
-        epoch_key = sv["EPOCH"]  # Extract the epoch timestamp
-        rd.set(epoch_key, json.dumps(sv))  # Store the entire state vector as a JSON string
+        epoch_key = sv["EPOCH"]  
+        rd.set(epoch_key, json.dumps(sv))      
 
     print("ISS data stored successfully in Redis.")
 
@@ -246,18 +247,15 @@ def epochs():
         limit (int): Maximum number of results to return.
         offset (int): Number of results to skip before returning data.
     """
-    all_keys = sorted(rd.keys())  # Get all keys (EPOCHs) and sort them
+    all_keys = sorted(rd.keys())  
     limit = request.args.get('limit', type=int)
     offset = request.args.get('offset', type=int, default=0)
 
-    # Apply offset
     all_keys = all_keys[offset:]
 
-    # Apply limit if provided
     if limit:
         all_keys = all_keys[:limit]
 
-    # Retrieve and return data
     state_vectors = [json.loads(rd.get(epoch)) for epoch in all_keys]
     return state_vectors
 
@@ -269,9 +267,9 @@ def get_epoch(epoch):
     Args:
         epoch (string): specific timestamp of the epoch
     """
-    data = rd.get(epoch)  # Retrieve data directly using the EPOCH as key
+    data = rd.get(epoch)  
     if data:
-        return json.loads(data)  # Convert back to dictionary and return
+        return json.loads(data)  
     else:
         return {"error": "Epoch not found"}, 404
 
@@ -284,17 +282,17 @@ def speed(epoch):
     Args:
         epoch (string): specific timestamp of the epoch
     """
-    data = rd.get(epoch)  # Retrieve data using the EPOCH as key
+    data = rd.get(epoch)  
     if not data:
         return {"error": "Epoch not found"}, 404
 
-    state_vector = json.loads(data)  # Convert JSON string back to dictionary
+    state_vector = json.loads(data)  
 
     x_dot = float(state_vector["X_DOT"]["#text"])
     y_dot = float(state_vector["Y_DOT"]["#text"])
     z_dot = float(state_vector["Z_DOT"]["#text"])
 
-    speed = math.sqrt(x_dot**2 + y_dot**2 + z_dot**2)  # Calculate the speed
+    speed = math.sqrt(x_dot**2 + y_dot**2 + z_dot**2)  
     return {"epoch": epoch, "speed_km_s": speed}
 
 
@@ -303,11 +301,10 @@ def closest_data():
     """
     Route to return the closest epoch to the current time along with its speed in the ISS dataset.
     """
-    all_keys = sorted(rd.keys())  # Get all stored EPOCHs
+    all_keys = sorted(rd.keys())  
     if not all_keys:
         return {"error": "No data available"}, 404
 
-    # Retrieve all state vectors and find the closest one
     state_vectors = [json.loads(rd.get(epoch)) for epoch in all_keys]
     closest_vector = print_latest_data(state_vectors)
 
@@ -361,4 +358,5 @@ def get_location(epoch):
 
 
 if __name__ == "__main__":
+    fetch_and_store_iss_data()
     app.run(host='0.0.0.0', port = 5000)
